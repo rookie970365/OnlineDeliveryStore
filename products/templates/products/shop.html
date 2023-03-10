@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%  block title %}
+  Shop
+{%  endblock %}
+
+{% block body %}
+{#<style>body { background-image: url({% static 'products/images/fon-22501.jpg' %}); }</style>#}
+<div class="container"><br>
+{#      <h5>Filter By Kind</h5>#}
+{#        <div class="tagcloud">#}
+{#          {% if filter_by == 0 %}#}
+{#            <a class="nav-link active" aria-selected="true">All</a>#}
+{#          {% else %}#}
+{#            <a href="{% url 'products:shop' %}" class="tag-cloud-link" aria-selected="true">All</a>#}
+{#          {% endif %}#}
+{#          {% for elem in kind %}#}
+{#            {% if elem.pk == filter_by %}#}
+{#              <a class="nav-link active" aria-selected="true">{{ elem.name }}</a>#}
+{#            {% else %}#}
+{#              <a href="{{ elem.get_absolute_url }}" class="tag-cloud-link">{{ elem.name }}</a>#}
+{#            {% endif %}#}
+{#          {% endfor %}#}
+
+{#      <h5>Filter By Origin</h5>#}
+{#        <div class="tagcloud">#}
+{#          {% if filter_by == 0 %}#}
+{#            <a class="nav-link active" aria-selected="true">All</a>#}
+{#          {% else %}#}
+{#            <a href="{% url 'products:shop' %}" class="tag-cloud-link" aria-selected="true">All</a>#}
+{#          {% endif %}#}
+{#          {% for elem in origin %}#}
+{#            {% if elem.pk == filter_by %}#}
+{#              <a class="nav-link active" aria-selected="true">{{ elem.origin }}</a>#}
+{#            {% else %}#}
+{#              <a href="{{ elem.get_absolute_url }}" class="tag-cloud-link">{{ elem.origin }}</a>#}
+{#            {% endif %}#}
+{#          {% endfor %}#}
+{#    </div>#}
+
+ <section class="ftco-menu mb-5 pb-5">
+  <div class="row">
+    <div class="col col-4 col-md-3 col-lg-2">
+      <div class="menu-entry">
+      <form action="" method="post" class="billing-form">
+       {% csrf_token %}
+       {{ form.as_p }}
+       <input type="submit" class="btn btn-primary btn-outline-primary col-11" value="filter by kind">
+      </form>
+      </div>
+    </div>
+  </div>
+<br>
+  <div class="row">
+    {% for product in products %}
+      <div class="col-md-3">
+        <div class="menu-entry">
+          <a href="{% url 'products:details' product.pk %}" class="img" style="background-image: url({%  static 'images/bag-99.jpg' %});"></a>
+            <div class="text text-center pt-4">
+                <h3><a href="{% url 'products:details' product.pk %}">{{ product.name.title }}</a></h3>
+                <p class="text-primary">{{ product.kind }}</p>
+                <p class="price"><span>${{ product.price }}</span></p>
+                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                  <input type="hidden" id="quantity" name="quantity" class="form-control input-number" value="1">
+                    {% csrf_token %}
+                  <input type="submit" class="btn btn-primary btn-outline-primary px-4 mt-3" value="Add to cart">
+                </form>
+            </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+</div>
+
+{% endblock %}

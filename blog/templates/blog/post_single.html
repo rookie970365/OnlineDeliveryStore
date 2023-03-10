@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%  block title %}
+  Blog Article
+{%  endblock %}
+
+{% block body %}
+<section class="ftco-section">
+  <div class="container">
+      <br>
+    <div><a href="#">{{ post.created }}</a></div>
+    <div><a href="#">{{ post.author }}</a></div>
+    <p><h3 class="mb-3">{{ post.title}}</h3>
+    <p><img src="{% static 'images/post-4.jpg' %}" alt="" class="img-fluid"></p>
+    <p>{{ post.text }}</p>
+    </div>
+</section>
+{% endblock %}

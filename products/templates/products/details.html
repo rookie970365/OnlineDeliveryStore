@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%  block title %}
+  Product detail
+{%  endblock %}
+{% block body %}
+{#<style>body { background-image: url({% static 'products/images/fon-22501.jpg' %}); }</style>#}
+<section class="ftco-section">
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col-lg-6 mb-5">
+        <a href="#" class="image-popup"><img src="{%  static 'images/bag-99.jpg' %}" class="img-fluid" alt=""></a>
+      </div>
+
+      <div class="col-lg-6 product-details pl-md-5">
+        <h3>{{ product.name }}</h3>
+        <strong>Kind:</strong>
+        <a href="{% url 'products:shop' %}">{{ product.kind }}</a>
+        <br>
+        <strong>Origin:</strong>
+        <a href="{% url 'products:shop' %}">{{ product.origin.all|join:", " }}</a>
+        <br>
+        <strong>Degree of roast:</strong>
+        <a href="{% url 'products:shop' %}">{{ product.profile.degree_of_roast }}</a>
+        <br>
+        <strong>Preparation method:</strong>
+        <a href="{% url 'products:shop' %}">{{ product.profile.preparation_method }}</a>
+        <br>
+        <p>Price per 1kg: </p> <p class="price"><span>${{ product.price }}</span></p>
+
+        <br>
+        <div class="row mt-3">
+{#          <div class="col-md-5">#}
+{#            <div class="form-group">#}
+{#              <div class="select-wrap">#}
+{#              <div class="icon"><span class="ion-ios-arrow-down"></span></div>#}
+{#                <select name="" id="" class="form-control">#}
+{#                 <option value="">1kg</option>#}
+{#                 <option value="">500g</option>#}
+{#                 <option value="">250g</option>#}
+{#                </select>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+
+          <div class="w-100"></div>
+              <form action="{% url 'cart:cart_add' product.id %}" method="post" class="input-group col-md-5 mt-3 mb-3">
+                <span class="input-group-btn mr-2 mt-2">
+                  <button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
+                    <i class="icon-minus"></i>
+                  </button>
+                </span>
+                <input type="text" id="quantity" name="quantity" class="form-control input-number mr-2 mt-2" value="1" min="1" max="100">
+                <span class="input-group-btn mr-2 mt-2">
+                  <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                    <i class="icon-plus"></i>
+                  </button>
+                </span>
+                  <br>
+                {% csrf_token %}
+                  {{  form.as_p }}
+                 <input type="submit" class="btn btn-primary py-3 px-5 mt-2" value="Add to cart">
+              </form>
+        </div>
+      </div>
+    </div>
+    <h4><span>Description</span></h4>
+     <p>{{ product.description }}</p>
+  </div>
+</section>
+
+<script src="{%  static 'js/jquery.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+    var quantitiy=0;
+       $('.quantity-right-plus').click(function(e){
+            e.preventDefault();
+            var quantity = parseInt($('#quantity').val());
+           $('#quantity').val(quantity + 1);
+        });
+         $('.quantity-left-minus').click(function(e){
+             e.preventDefault();
+             var quantity = parseInt($('#quantity').val());
+                if(quantity>0){
+                $('#quantity').val(quantity - 1);
+                }
+        });
+    });
+</script>
+{%  endblock %}
+
+

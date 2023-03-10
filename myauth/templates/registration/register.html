@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Register
+{% endblock %}
+
+{% block body %}
+<style>body { background-image: url({% static 'images/bg_4.jpg' %}); }</style>
+  <section class="ftco-section">
+  <div class="container">
+  <h2>Register</h2>
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      {{ form.errors }}
+    </div>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    <div class="alert alert-info my-2" role="alert">
+      You're already authenticated as {{ user }}
+      <br>
+      You can visit your page at <a href="{% url 'myauth:me' %}">my info</a>
+    </div>
+  {% else %}
+    <div class="row">
+      <div class="col col-12 col-md-8 col-lg-6">
+        <form method="post" action="{% url 'myauth:register' %}" class="billing-form p-3 p-md-5">
+          {% csrf_token %}
+
+          {{ form.as_p }}
+
+          <input class="btn btn-primary py-3 px-5" type="submit" value="Register">
+        </form>
+      </div>
+    </div>
+  {% endif %}
+  </div>
+  </section>
+
+{% endblock %}
