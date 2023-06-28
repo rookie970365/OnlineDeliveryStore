@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
-from .tasks import notify_order_created
+# from .tasks import notify_order_created
 from django.urls import reverse
 
 
@@ -23,7 +23,7 @@ def order_create(request):
                                          price=item['price'],
                                          quantity=item['quantity'])
             cart.clear()
-            notify_order_created.delay(order.id)
+            # notify_order_created.delay(order.id)
             request.session['order_id'] = order.id
             return redirect(reverse('payment:process'))
     else:
